@@ -1,0 +1,31 @@
+Compare the results with time quantum 3 and time quantum 5. Which quantum gave better average waiting time? Why?
+    A time quantum of 5ms resulted in a better (lower) average waiting time (5.00ms compared to 6.67ms for 3ms). 
+    This happened because a larger time quantum allowed the shorter processes (Process 2 and Process 3) to finish 
+    entirely in their first turn on the CPU, preventing them from being thrown to the back of the queue to wait 
+    for another cycle.
+
+2. What would happen if the time quantum was 1ms? Would the system be more or less efficient?
+    The system would be highly responsive but less efficient. A 1ms quantum forces the CPU to constantly interrupt
+    processes and swap them out. Every swap triggers a "context switch," which takes a tiny bit of processing power 
+    itself. With a 1ms quantum, the CPU spends a disproportionate amount of its time just managing the line rather 
+    than executing the actual programs.
+
+3. What would happen if the time quantum was 20ms (larger than any process burst time)? How would Round Robin behave then?
+    If the time quantum is larger than the longest burst time, no process is ever interrupted by the timer. Process 
+    1 would finish completely, then Process 2, then Process 3. The Round Robin algorithm would behave identically to 
+    a First-Come, First-Served (FCFS) scheduling algorithm.
+
+4. In the simulation with quantum 3, how many context switches occurred? Count each time a process was removed from the queue.
+    Based on the rule to count every time a process is removed from the queue to run, there are 6 occurrences
+        P1 runs for 3ms (remaining: 4)
+        P2 runs for 3ms (remaining: 1)
+        P3 runs for 2ms (remaining: 0, finished)
+        P1 runs for 3ms (remaining: 1)
+        P2 runs for 1ms (remaining: 0, finished)
+        P1 runs for 1ms (remaining: 0, finished)
+
+5. Why does Round Robin prevent the convoy effect that occurs in FCFS scheduling?
+    The convoy effect happens in FCFS when one massively long, CPU-heavy process gets to the front of the line and 
+    forces all the quick, short processes to wait forever behind it. Round Robin prevents this by enforcing a strict 
+    time limit (the quantum). Even if a massive process is at the front, it is forced to yield the CPU after its 
+    time is up, allowing the shorter "convoy" of processes behind it to get their turn and clear out quickly.
